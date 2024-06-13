@@ -21,8 +21,8 @@ const MentalHealthModuleFooter = (props) => {
           marginBottom: '30px',
         }}
       >
-        Want to know more about the session ? <span>Click here</span> to book a
-        session.
+        Would you like to discuss this topic ? Schedule a session with one of
+        our psychologists by phone. <u>Click here</u> for more information.
       </div>
       <Button
         onClick={handlePreviousBtnClick}

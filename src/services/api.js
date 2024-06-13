@@ -11,21 +11,6 @@ const config = {
   },
 };
 
-export const fetchYouTubeVideos = async () => {
-  const response = await api.get('/youtube-videos?pagination[limit]=1', config);
-  return response.data;
-};
-
-export const fetchTextContents = async () => {
-  const response = await api.get('/contents?pagination[limit]=1', config);
-  return response.data;
-};
-
-export const fetchImages = async () => {
-  const response = await api.get('/images?pagination[limit]=1', config);
-  return response.data;
-};
-
 export const fetchMentalHealthPage1Data = async () => {
   const response = await api.get('/mental-health-page-1?populate=*', config);
   return response.data;
@@ -33,5 +18,10 @@ export const fetchMentalHealthPage1Data = async () => {
 
 export const fetchMentalHealthPage2Data = async () => {
   const response = await api.get('/mental-health-page-2?populate=*', config);
+  return response.data;
+};
+
+export const fetchMentalHealthPage3Data = async () => {
+  const response = await api.get('/mental-health-page-3?populate=*', config);
   return response.data;
 };

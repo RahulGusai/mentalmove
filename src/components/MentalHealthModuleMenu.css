@@ -1,0 +1,32 @@
+.mental-health-module-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  font-size: 20px;
+  margin-top: 150px;
+  margin-left: 100px;
+}
+
+.modulePages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modulePages > * {
+  cursor: pointer;
+}
+
+.langPicker {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.langType {
+  cursor: pointer;
+}
+
+.langType > span {
+  font-size: 18px;
+}

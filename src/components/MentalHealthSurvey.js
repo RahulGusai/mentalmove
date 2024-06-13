@@ -1,16 +1,42 @@
 import React, { useState } from 'react';
 import './MentalHealthSurvey.css';
+import { Button } from 'semantic-ui-react';
 
 const options = ['Rare', 'Uncommon', 'Common', 'Almost always'];
 
 const MentalHealthSurvey = (props) => {
   const { questions } = props;
-  const [responses, setResponses] = useState(Array(questions.length).fill(''));
 
-  const handleResponseChange = (index, value) => {
-    const newResponses = [...responses];
-    newResponses[index] = value;
-    setResponses(newResponses);
+  const acceptanceFields = ['3', '5', '7', '8', '11', '12', '13', '14'];
+  const presenceFields = ['0', '1', '2', '4', '6', '10'];
+
+  const [showResults, setShowResults] = useState(false);
+  const [acceptanceScore, setAcceptanceScore] = useState(0);
+  const [presenceScore, setPresenceScore] = useState(0);
+  const [responses, setResponses] = useState({});
+
+  const handleResponseChange = (questionId, value) => {
+    setResponses({
+      ...responses,
+      [questionId]: value,
+    });
+  };
+
+  const calculateScore = (fields) => {
+    let score = 0;
+    fields.forEach((field) => {
+      score += parseInt(responses[field] || 0, 10);
+    });
+    return score;
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const acceptance = calculateScore(acceptanceFields);
+    const presence = calculateScore(presenceFields);
+    setAcceptanceScore(acceptance);
+    setPresenceScore(presence);
+    setShowResults(true);
   };
 
   return (
@@ -25,9 +51,8 @@ const MentalHealthSurvey = (props) => {
                 <input
                   type="radio"
                   name={`question-${qIndex}`}
-                  value={option}
-                  checked={responses[qIndex] === option}
-                  onChange={() => handleResponseChange(qIndex, option)}
+                  value={oIndex + 1}
+                  onChange={() => handleResponseChange(qIndex, oIndex + 1)}
                 />
                 {option}
               </label>
@@ -35,6 +60,27 @@ const MentalHealthSurvey = (props) => {
           </div>
         </div>
       ))}
+      <Button onClick={handleSubmit}>Submit</Button>
+      {showResults && (
+        <div className="results">
+          <h3>Your Mindfulness Score</h3>
+          <p>
+            <strong>Acceptance (max. score: 32):</strong> {acceptanceScore}
+          </p>
+          <p>
+            <strong>Presence (max. score: 24):</strong> {presenceScore}
+          </p>
+          <p>
+            How higher your score, the more mindful you are. The minimum score
+            is 14 and the maximum score is 56. The acceptance score reflects
+            your ability to accept both positive and negative experiences. The
+            presence score indicates your ability to be present in the here and
+            now. A low score does not mean something is wrong; this
+            questionnaire is only intended to make you aware of your current
+            ability to be in the now and accept all experiences.
+          </p>
+        </div>
+      )}
     </div>
   );
 };

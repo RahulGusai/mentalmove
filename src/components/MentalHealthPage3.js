@@ -1,41 +1,35 @@
 // src/components/MentalHealthModule.js
-import React, { useEffect, useRef, useState } from 'react';
-import { fetchMentalHealthPage2Data } from '../services/api';
-import MentalHealthModuleFooter from './MentalHealthModuleFooter';
-import MentalHealthSurvey from './MentalHealthSurvey';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { fetchMentalHealthPage3Data } from '../services/api';
 import MentalHealthModuleMenu from './MentalHealthModuleMenu';
+import MentalHealthModuleFooter from './MentalHealthModuleFooter';
 
 const MentalHealthPage2 = (props) => {
   const { currentIndex, setCurrentIndex } = props;
   const [title, setTitle] = useState(null);
-  const [text, setText] = useState(null);
+  const [textData, setTextData] = useState(null);
   const [image, setImage] = useState(null);
-  const [questions, setQuestions] = useState(null);
-  const contentRef = useRef(null);
-
-  function fetchQuestions(surveyForm) {
-    const questionsArr = surveyForm.attributes.questions;
-    return questionsArr.map((questionObj) => {
-      return questionObj.children[0].text;
-    });
-  }
+  const contentRefArr = useRef([React.createRef(), React.createRef()]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await fetchMentalHealthPage2Data();
+      const { data } = await fetchMentalHealthPage3Data();
+
+      setTextData(data.attributes.contents.data);
       setImage(data.attributes.image.data);
-      setText(data.attributes.content.data);
-      setQuestions(fetchQuestions(data.attributes.survey_form.data));
       setTitle(data.attributes.Title);
     };
     fetchData();
   }, []);
 
   useEffect(() => {
-    if (text) {
-      contentRef.current.innerText = text.attributes.content;
+    if (textData) {
+      console.log(contentRefArr);
+      contentRefArr.current.forEach((contentRef, index) => {
+        contentRef.current.innerText = textData[index].attributes.content;
+      });
     }
-  }, [text]);
+  }, [contentRefArr, textData]);
 
   return (
     <div className="mental-health-page-container">
@@ -51,15 +45,19 @@ const MentalHealthPage2 = (props) => {
           </div>
         )}
         {title && <h2>{title}</h2>}
-        {text && (
-          <div className="textContent">
-            {text.attributes.title && <h2>{text.attributes.title}</h2>}
-            <div ref={contentRef}></div>
-          </div>
-        )}
-        {questions && (
-          <MentalHealthSurvey questions={questions}></MentalHealthSurvey>
-        )}
+        {textData &&
+          textData.map((textDataObj, index) => {
+            return (
+              <div className="textContent">
+                {textDataObj.attributes.title && (
+                  <h2>{textDataObj.attributes.title}</h2>
+                )}
+                <div ref={contentRefArr.current[index]}>
+                  {textDataObj.attributes.content}
+                </div>
+              </div>
+            );
+          })}
         <MentalHealthModuleFooter
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
