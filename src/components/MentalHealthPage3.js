@@ -5,7 +5,7 @@ import MentalHealthModuleMenu from './MentalHealthModuleMenu';
 import MentalHealthModuleFooter from './MentalHealthModuleFooter';
 
 const MentalHealthPage2 = (props) => {
-  const { currentIndex, setCurrentIndex } = props;
+  const { locale, setLocale, currentIndex, setCurrentIndex } = props;
   const [title, setTitle] = useState(null);
   const [textData, setTextData] = useState(null);
   const [image, setImage] = useState(null);
@@ -13,14 +13,14 @@ const MentalHealthPage2 = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await fetchMentalHealthPage3Data();
+      const { data } = await fetchMentalHealthPage3Data(locale);
 
       setTextData(data.attributes.contents.data);
       setImage(data.attributes.image.data);
       setTitle(data.attributes.Title);
     };
     fetchData();
-  }, []);
+  }, [locale]);
 
   useEffect(() => {
     if (textData) {
@@ -34,6 +34,7 @@ const MentalHealthPage2 = (props) => {
   return (
     <div className="mental-health-page-container">
       <MentalHealthModuleMenu
+        setLocale={setLocale}
         setCurrentIndex={setCurrentIndex}
       ></MentalHealthModuleMenu>
       <div className="mental-health-page">

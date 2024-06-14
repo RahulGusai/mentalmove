@@ -7,21 +7,30 @@ const api = axios.create({
 const config = {
   headers: {
     Authorization:
-      'Bearer ac05d1fed43b73dc9b24c915059af9620d90072a2c4ad27e6afbacd2ddbb829b61454eb18a373aa95a54faad805f6affb63a372312746290c53cc41b8c7e4d4a71b12707d4aa308f1af5452e157543c7285ec5842eb3e1ab6f331b067b24c725f7d290501795b9f5143734fe7b131a80be3564a0ddd02560829250c1f59f4a3c',
+      'Bearer c92966d11e2314e8394be2ced2e040aa96e25b5a444b28cf87bb0a4eb36d03b9f4d5141585fd5c388ec279305a6e80719172be051a380159c0ebe4c5d09263d46c757cc7059ea0f976a383ed3bd4ac1236797218792ab5a2bd1a47042d9c0301a6a5e4e0e372f1c2c21b0f45bb7f188dc09e05a76fea200637744471c120381c',
   },
 };
 
-export const fetchMentalHealthPage1Data = async () => {
-  const response = await api.get('/mental-health-page-1?populate=*', config);
+export const fetchMentalHealthPage1Data = async (locale) => {
+  const response = await api.get(
+    `/mental-health-page-1?populate=*&locale=${locale}`,
+    config
+  );
   return response.data;
 };
 
-export const fetchMentalHealthPage2Data = async () => {
-  const response = await api.get('/mental-health-page-2?populate=*', config);
+export const fetchMentalHealthPage2Data = async (locale) => {
+  const response = await api.get(
+    `/mental-health-page-2?populate=*&locale=${locale}`,
+    config
+  );
   return response.data;
 };
 
-export const fetchMentalHealthPage3Data = async () => {
-  const response = await api.get('/mental-health-page-3?populate=*', config);
+export const fetchMentalHealthPage3Data = async (locale) => {
+  const response = await api.get(
+    `/mental-health-page-3?populate=*&locale=${locale}`,
+    config
+  );
   return response.data;
 };

@@ -1,13 +1,11 @@
-// src/components/MentalHealthModule.js
 import React, { useEffect, useRef, useState } from 'react';
 import { fetchMentalHealthPage1Data } from '../services/api';
-import { Button } from 'semantic-ui-react';
 import '../App.css';
 import MentalHealthModuleFooter from './MentalHealthModuleFooter';
 import MentalHealthModuleMenu from './MentalHealthModuleMenu';
 
 const MentalHealthPage1 = (props) => {
-  const { currentIndex, setCurrentIndex } = props;
+  const { locale, setLocale, currentIndex, setCurrentIndex } = props;
 
   const [title, setTitle] = useState(null);
   const [video, setVideo] = useState(null);
@@ -17,7 +15,7 @@ const MentalHealthPage1 = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await fetchMentalHealthPage1Data();
+      const { data } = await fetchMentalHealthPage1Data(locale);
 
       setVideo(data.attributes.video.data);
       setText(data.attributes.content.data);
@@ -25,7 +23,7 @@ const MentalHealthPage1 = (props) => {
       setTitle(data.attributes.Title);
     };
     fetchData();
-  }, []);
+  }, [locale]);
 
   useEffect(() => {
     if (text) {
@@ -36,6 +34,7 @@ const MentalHealthPage1 = (props) => {
   return (
     <div className="mental-health-page-container">
       <MentalHealthModuleMenu
+        setLocale={setLocale}
         setCurrentIndex={setCurrentIndex}
       ></MentalHealthModuleMenu>
       <div className="mental-health-page">

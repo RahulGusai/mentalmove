@@ -1,7 +1,7 @@
 import './MentalHealthModuleMenu.css';
 
 const MentalHealthModuleMenu = (props) => {
-  const { setCurrentIndex } = props;
+  const { setCurrentIndex, setLocale } = props;
   return (
     <div className="mental-health-module-menu">
       <div className="modulePages">
@@ -15,10 +15,10 @@ const MentalHealthModuleMenu = (props) => {
       </div>
       <div className="langPicker">
         <h3>Languages</h3>
-        <div className="langType">
+        <div onClick={() => setLocale('nl')} className="langType">
           <span>Nederlands(Dutch)</span>
         </div>
-        <div className="langType">
+        <div onClick={() => setLocale('en')} className="langType">
           <span>English</span>
         </div>
       </div>

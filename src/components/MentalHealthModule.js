@@ -5,12 +5,15 @@ import MentalHealthPage2 from './MentalHealthPage2';
 import MentalHealthPage3 from './MentalHealthPage3';
 
 const MentalHealthModule = () => {
+  const [locale, setLocale] = useState('en');
   const [currentIndex, setCurrentIndex] = useState(0);
 
   switch (currentIndex) {
     case 0:
       return (
         <MentalHealthPage1
+          locale={locale}
+          setLocale={setLocale}
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
         ></MentalHealthPage1>
@@ -18,6 +21,8 @@ const MentalHealthModule = () => {
     case 1:
       return (
         <MentalHealthPage2
+          locale={locale}
+          setLocale={setLocale}
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
         ></MentalHealthPage2>
@@ -25,6 +30,8 @@ const MentalHealthModule = () => {
     case 2:
       return (
         <MentalHealthPage3
+          locale={locale}
+          setLocale={setLocale}
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
         ></MentalHealthPage3>
@@ -32,6 +39,8 @@ const MentalHealthModule = () => {
     default:
       return (
         <MentalHealthPage1
+          locale={locale}
+          setLocale={setLocale}
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
         ></MentalHealthPage1>
