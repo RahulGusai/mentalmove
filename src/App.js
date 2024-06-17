@@ -1,11 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 import MentalHealthModule from './components/MentalHealthModule';
+import MentalModuleAccess from './components/MentalModuleAccess';
 
 function App() {
   return (
     <div>
-      <MentalHealthModule></MentalHealthModule>
+      <MentalModuleAccess></MentalModuleAccess>
+      {/* <MentalHealthModule></MentalHealthModule> */}
     </div>
   );
 }
