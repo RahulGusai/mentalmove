@@ -6,7 +6,7 @@ import MentalHealthSurvey from './MentalHealthSurvey';
 import MentalHealthModuleMenu from './MentalHealthModuleMenu';
 
 const MentalHealthPage2 = (props) => {
-  const { locale, setLocale, currentIndex, setCurrentIndex } = props;
+  const { loggedIn, locale, setLocale, currentIndex, setCurrentIndex } = props;
   const [title, setTitle] = useState(null);
   const [text, setText] = useState(null);
   const [image, setImage] = useState(null);
@@ -59,7 +59,10 @@ const MentalHealthPage2 = (props) => {
           </div>
         )}
         {questions && (
-          <MentalHealthSurvey questions={questions}></MentalHealthSurvey>
+          <MentalHealthSurvey
+            loggedIn={loggedIn}
+            questions={questions}
+          ></MentalHealthSurvey>
         )}
         <MentalHealthModuleFooter
           currentIndex={currentIndex}

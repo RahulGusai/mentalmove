@@ -69,3 +69,15 @@
   font-size: 16px;
   font-weight: bold;
 }
+
+.bold {
+  font-weight: bold;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.italic {
+  font-style: italic;
+}

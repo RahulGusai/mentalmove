@@ -1,15 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
-import MentalHealthModule from './components/MentalHealthModule';
-import MentalModuleAccess from './components/MentalModuleAccess';
+import AppRoutes from './routes';
 
 function App() {
-  return (
-    <div>
-      <MentalModuleAccess></MentalModuleAccess>
-      {/* <MentalHealthModule></MentalHealthModule> */}
-    </div>
-  );
+  return <AppRoutes></AppRoutes>;
 }
 
 export default App;

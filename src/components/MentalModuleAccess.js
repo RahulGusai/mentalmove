@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
-const MentalModuleAccess = () => {
+const MentalModuleAccess = (props) => {
+  const { setLoggedIn } = props;
   const [companyCode, setCompanyCode] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(companyCode);
+    try {
+      const response = await axios.post('http://localhost:3001/validate-code', {
+        companyCode,
+      });
+      if (!response.data.valid) {
+        window.alert('De bedrijfscode is ongeldig.');
+      } else {
+        setLoggedIn({ companyCode });
+      }
+    } catch (error) {
+      console.error('There was an error validating the company code:', error);
+    }
   };
 
   return (

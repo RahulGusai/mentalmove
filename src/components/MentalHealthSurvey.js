@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './MentalHealthSurvey.css';
 import { Button } from 'semantic-ui-react';
+import { submitSurveyFormScores } from '../services/api';
 
 const options = ['Rare', 'Uncommon', 'Common', 'Almost always'];
 
 const MentalHealthSurvey = (props) => {
-  const { questions } = props;
+  const { questions, loggedIn } = props;
 
   const acceptanceFields = ['3', '5', '7', '8', '11', '12', '13', '14'];
   const presenceFields = ['0', '1', '2', '4', '6', '10'];
@@ -30,13 +31,26 @@ const MentalHealthSurvey = (props) => {
     return score;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const acceptance = calculateScore(acceptanceFields);
     const presence = calculateScore(presenceFields);
     setAcceptanceScore(acceptance);
     setPresenceScore(presence);
     setShowResults(true);
+
+    try {
+      const data = {
+        companyCode: loggedIn.companyCode,
+        acceptanceScore: acceptance,
+        presenceScore: presence,
+      };
+      console.log(data);
+      await submitSurveyFormScores(data);
+      console.log('Scores submitted successfully');
+    } catch (error) {
+      console.error('Failed to submit scores', error.message);
+    }
   };
 
   return (

@@ -34,3 +34,20 @@ export const fetchMentalHealthPage3Data = async (locale) => {
   );
   return response.data;
 };
+
+export const submitSurveyFormScores = async (data) => {
+  try {
+    const response = await api.post(
+      '/ezforms/submit',
+      {
+        formName: 'survey-form',
+        formData: data,
+      },
+      config
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error submitting scores:', error);
+    throw error;
+  }
+};

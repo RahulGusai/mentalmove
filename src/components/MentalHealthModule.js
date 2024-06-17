@@ -4,7 +4,8 @@ import MentalHealthPage1 from './MentalHealthPage1';
 import MentalHealthPage2 from './MentalHealthPage2';
 import MentalHealthPage3 from './MentalHealthPage3';
 
-const MentalHealthModule = () => {
+const MentalHealthModule = (props) => {
+  const { loggedIn } = props;
   const [locale, setLocale] = useState('en');
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -21,6 +22,7 @@ const MentalHealthModule = () => {
     case 1:
       return (
         <MentalHealthPage2
+          loggedIn={loggedIn}
           locale={locale}
           setLocale={setLocale}
           currentIndex={currentIndex}

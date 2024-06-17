@@ -25,12 +25,6 @@ const MentalHealthPage1 = (props) => {
     fetchData();
   }, [locale]);
 
-  useEffect(() => {
-    if (text) {
-      contentRef.current.innerText = text.attributes.content;
-    }
-  }, [text]);
-
   return (
     <div className="mental-health-page-container">
       <MentalHealthModuleMenu
@@ -49,7 +43,20 @@ const MentalHealthPage1 = (props) => {
         {text && (
           <div className="textContent">
             {text.attributes.title && <h2>{text.attributes.title}</h2>}
-            <div ref={contentRef}></div>
+            {text.attributes.content2.map((block) => {
+              const children = block.children[0];
+
+              let className = 'textBlock';
+              className = children.bold ? `${className} bold` : className;
+              className = children.italic ? `${className} italic` : className;
+              className = children.underline
+                ? `${className} underline`
+                : className;
+
+              if (children.type == 'heading')
+                return <h3 className={className}>{children.text}</h3>;
+              else return <div className={className}>{children.text}</div>;
+            })}
           </div>
         )}
         {video && (
