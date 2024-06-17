@@ -5,8 +5,7 @@ import MentalHealthPage2 from './MentalHealthPage2';
 import MentalHealthPage3 from './MentalHealthPage3';
 
 const MentalHealthModule = (props) => {
-  const { loggedIn } = props;
-  const [locale, setLocale] = useState('en');
+  const { loggedIn, locale, setLocale } = props;
   const [currentIndex, setCurrentIndex] = useState(0);
 
   switch (currentIndex) {

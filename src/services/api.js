@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'http://localhost:1337/api', // Your Strapi API URL
+  withCredentials: true,
 });
 
 const config = {
@@ -36,6 +37,23 @@ export const fetchMentalHealthPage3Data = async (locale) => {
 };
 
 export const submitSurveyFormScores = async (data) => {
+  try {
+    const response = await api.post(
+      '/ezforms/submit',
+      {
+        formName: 'survey-form',
+        formData: data,
+      },
+      config
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error submitting scores:', error);
+    throw error;
+  }
+};
+
+export const checkIfUserIsLoggedIn = async (data) => {
   try {
     const response = await api.post(
       '/ezforms/submit',

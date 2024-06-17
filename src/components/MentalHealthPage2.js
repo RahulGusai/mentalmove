@@ -4,6 +4,7 @@ import { fetchMentalHealthPage2Data } from '../services/api';
 import MentalHealthModuleFooter from './MentalHealthModuleFooter';
 import MentalHealthSurvey from './MentalHealthSurvey';
 import MentalHealthModuleMenu from './MentalHealthModuleMenu';
+import MentalHealthModuleLinks from './MentalHealthModuleLinks';
 
 const MentalHealthPage2 = (props) => {
   const { loggedIn, locale, setLocale, currentIndex, setCurrentIndex } = props;
@@ -31,18 +32,9 @@ const MentalHealthPage2 = (props) => {
     fetchData();
   }, [locale]);
 
-  useEffect(() => {
-    if (text) {
-      contentRef.current.innerText = text.attributes.content;
-    }
-  }, [text]);
-
   return (
     <div className="mental-health-page-container">
-      <MentalHealthModuleMenu
-        setLocale={setLocale}
-        setCurrentIndex={setCurrentIndex}
-      ></MentalHealthModuleMenu>
+      <MentalHealthModuleMenu setLocale={setLocale}></MentalHealthModuleMenu>
       <div className="mental-health-page">
         <h1>Mental Health Module</h1>
         {image && (
@@ -55,7 +47,20 @@ const MentalHealthPage2 = (props) => {
         {text && (
           <div className="textContent">
             {text.attributes.title && <h2>{text.attributes.title}</h2>}
-            <div ref={contentRef}></div>
+            {text.attributes.content.map((block) => {
+              const children = block.children[0];
+
+              let className = 'textBlock';
+              className = children.bold ? `${className} bold` : className;
+              className = children.italic ? `${className} italic` : className;
+              className = children.underline
+                ? `${className} underline`
+                : className;
+
+              if (children.type == 'heading')
+                return <h3 className={className}>{children.text}</h3>;
+              else return <div className={className}>{children.text}</div>;
+            })}
           </div>
         )}
         {questions && (
@@ -69,6 +74,9 @@ const MentalHealthPage2 = (props) => {
           setCurrentIndex={setCurrentIndex}
         ></MentalHealthModuleFooter>
       </div>
+      <MentalHealthModuleLinks
+        setCurrentIndex={setCurrentIndex}
+      ></MentalHealthModuleLinks>
     </div>
   );
 };

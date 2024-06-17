@@ -3,40 +3,28 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { fetchMentalHealthPage3Data } from '../services/api';
 import MentalHealthModuleMenu from './MentalHealthModuleMenu';
 import MentalHealthModuleFooter from './MentalHealthModuleFooter';
+import MentalHealthModuleLinks from './MentalHealthModuleLinks';
 
 const MentalHealthPage2 = (props) => {
   const { locale, setLocale, currentIndex, setCurrentIndex } = props;
   const [title, setTitle] = useState(null);
-  const [textData, setTextData] = useState(null);
+  const [text, setText] = useState(null);
   const [image, setImage] = useState(null);
-  const contentRefArr = useRef([React.createRef(), React.createRef()]);
 
   useEffect(() => {
     const fetchData = async () => {
       const { data } = await fetchMentalHealthPage3Data(locale);
 
-      setTextData(data.attributes.contents.data);
+      setText(data.attributes.content.data);
       setImage(data.attributes.image.data);
       setTitle(data.attributes.Title);
     };
     fetchData();
   }, [locale]);
 
-  useEffect(() => {
-    if (textData) {
-      console.log(contentRefArr);
-      contentRefArr.current.forEach((contentRef, index) => {
-        contentRef.current.innerText = textData[index].attributes.content;
-      });
-    }
-  }, [contentRefArr, textData]);
-
   return (
     <div className="mental-health-page-container">
-      <MentalHealthModuleMenu
-        setLocale={setLocale}
-        setCurrentIndex={setCurrentIndex}
-      ></MentalHealthModuleMenu>
+      <MentalHealthModuleMenu setLocale={setLocale}></MentalHealthModuleMenu>
       <div className="mental-health-page">
         <h1>Mental Health Module</h1>
         {image && (
@@ -46,24 +34,33 @@ const MentalHealthPage2 = (props) => {
           </div>
         )}
         {title && <h2>{title}</h2>}
-        {textData &&
-          textData.map((textDataObj, index) => {
-            return (
-              <div className="textContent">
-                {textDataObj.attributes.title && (
-                  <h2>{textDataObj.attributes.title}</h2>
-                )}
-                <div ref={contentRefArr.current[index]}>
-                  {textDataObj.attributes.content}
-                </div>
-              </div>
-            );
-          })}
+        {text && (
+          <div className="textContent">
+            {text.attributes.title && <h2>{text.attributes.title}</h2>}
+            {text.attributes.content.map((block) => {
+              const children = block.children[0];
+
+              let className = 'textBlock';
+              className = children.bold ? `${className} bold` : className;
+              className = children.italic ? `${className} italic` : className;
+              className = children.underline
+                ? `${className} underline`
+                : className;
+
+              if (children.type == 'heading')
+                return <h3 className={className}>{children.text}</h3>;
+              else return <div className={className}>{children.text}</div>;
+            })}
+          </div>
+        )}
         <MentalHealthModuleFooter
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
         ></MentalHealthModuleFooter>
       </div>
+      <MentalHealthModuleLinks
+        setCurrentIndex={setCurrentIndex}
+      ></MentalHealthModuleLinks>
     </div>
   );
 };

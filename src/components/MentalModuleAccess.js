@@ -8,9 +8,13 @@ const MentalModuleAccess = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/validate-code', {
-        companyCode,
-      });
+      const response = await axios.post(
+        'http://localhost:3001/validate-code',
+        {
+          companyCode,
+        },
+        { withCredentials: true }
+      );
       if (!response.data.valid) {
         window.alert('De bedrijfscode is ongeldig.');
       } else {

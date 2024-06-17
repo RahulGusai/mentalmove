@@ -45,7 +45,6 @@ const MentalHealthSurvey = (props) => {
         acceptanceScore: acceptance,
         presenceScore: presence,
       };
-      console.log(data);
       await submitSurveyFormScores(data);
       console.log('Scores submitted successfully');
     } catch (error) {

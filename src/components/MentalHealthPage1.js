@@ -3,6 +3,7 @@ import { fetchMentalHealthPage1Data } from '../services/api';
 import '../App.css';
 import MentalHealthModuleFooter from './MentalHealthModuleFooter';
 import MentalHealthModuleMenu from './MentalHealthModuleMenu';
+import MentalHealthModuleLinks from './MentalHealthModuleLinks';
 
 const MentalHealthPage1 = (props) => {
   const { locale, setLocale, currentIndex, setCurrentIndex } = props;
@@ -27,10 +28,7 @@ const MentalHealthPage1 = (props) => {
 
   return (
     <div className="mental-health-page-container">
-      <MentalHealthModuleMenu
-        setLocale={setLocale}
-        setCurrentIndex={setCurrentIndex}
-      ></MentalHealthModuleMenu>
+      <MentalHealthModuleMenu setLocale={setLocale}></MentalHealthModuleMenu>
       <div className="mental-health-page">
         <h1>Mental Health Module</h1>
         {image && (
@@ -43,7 +41,7 @@ const MentalHealthPage1 = (props) => {
         {text && (
           <div className="textContent">
             {text.attributes.title && <h2>{text.attributes.title}</h2>}
-            {text.attributes.content2.map((block) => {
+            {text.attributes.content.map((block) => {
               const children = block.children[0];
 
               let className = 'textBlock';
@@ -78,6 +76,9 @@ const MentalHealthPage1 = (props) => {
           setCurrentIndex={setCurrentIndex}
         ></MentalHealthModuleFooter>
       </div>
+      <MentalHealthModuleLinks
+        setCurrentIndex={setCurrentIndex}
+      ></MentalHealthModuleLinks>
     </div>
   );
 };
