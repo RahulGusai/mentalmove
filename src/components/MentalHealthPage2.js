@@ -65,6 +65,7 @@ const MentalHealthPage2 = (props) => {
         )}
         {questions && (
           <MentalHealthSurvey
+            locale={locale}
             loggedIn={loggedIn}
             questions={questions}
           ></MentalHealthSurvey>
