@@ -1,11 +1,11 @@
 // src/components/MentalHealthModule.js
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { fetchMentalHealthPage3Data } from '../services/api';
+import { fetchMentalHealthPage4Data } from '../services/api';
 import MentalHealthModuleMenu from './MentalHealthModuleMenu';
 import MentalHealthModuleFooter from './MentalHealthModuleFooter';
 import MentalHealthModuleLinks from './MentalHealthModuleLinks';
 
-const MentalHealthPage3 = (props) => {
+const MentalHealthPage4 = (props) => {
   const { locale, setLocale, currentIndex, setCurrentIndex } = props;
   const [title, setTitle] = useState(null);
   const [text, setText] = useState(null);
@@ -13,7 +13,7 @@ const MentalHealthPage3 = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await fetchMentalHealthPage3Data(locale);
+      const { data } = await fetchMentalHealthPage4Data(locale);
 
       setText(data.attributes.content.data);
       setImage(data.attributes.image.data);
@@ -65,4 +65,4 @@ const MentalHealthPage3 = (props) => {
   );
 };
 
-export default MentalHealthPage3;
+export default MentalHealthPage4;
