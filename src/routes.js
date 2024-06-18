@@ -9,6 +9,7 @@ import MentalModuleAccess from './components/MentalModuleAccess';
 import MentalHealthModule from './components/MentalHealthModule';
 import LandingPage from './components/LandingPage';
 import axios from 'axios';
+import MentalHealthSurveyModule from './components/MentalHealthSurveyModule';
 
 const AppRoutes = () => {
   const [loggedIn, setLoggedIn] = useState(null);
@@ -67,6 +68,16 @@ const AppRoutes = () => {
                 locale={locale}
                 setLocale={setLocale}
               />
+            ) : (
+              <Navigate to="/access" />
+            )
+          }
+        />
+        <Route
+          path="/mental-move-survey"
+          element={
+            loggedIn ? (
+              <MentalHealthSurveyModule locale={locale} setLocale={setLocale} />
             ) : (
               <Navigate to="/access" />
             )

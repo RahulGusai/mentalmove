@@ -53,19 +53,15 @@ export const submitSurveyFormScores = async (data) => {
   }
 };
 
-export const checkIfUserIsLoggedIn = async (data) => {
-  try {
-    const response = await api.post(
-      '/ezforms/submit',
-      {
-        formName: 'survey-form',
-        formData: data,
-      },
-      config
-    );
-    return response.data;
-  } catch (error) {
-    console.error('Error submitting scores:', error);
-    throw error;
-  }
+export const fetchMentalMoveSurveyData = async (locale) => {
+  const response = await api.get(
+    `/mental-move-survey?populate=*&locale=${locale}`,
+    config
+  );
+  return response.data;
+};
+
+export const fetchLandingPageData = async () => {
+  const response = await api.get(`/landing-page?populate=*`, config);
+  return response.data;
 };
