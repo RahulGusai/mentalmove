@@ -9,7 +9,6 @@ import MentalModuleAccess from './components/auth/MentalModuleAccess';
 import MentalHealthModule from './components/module/MentalHealthModule';
 import LandingPage from './components/home/LandingPage';
 import axios from 'axios';
-import MentalHealthSurveyModule from './components/MentalHealthSurveyModule';
 import { fetchModules } from './services/api';
 
 const AppRoutes = () => {
