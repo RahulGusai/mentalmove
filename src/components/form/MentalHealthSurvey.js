@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './MentalHealthSurvey.css';
 import { Button } from 'semantic-ui-react';
-import { submitSurveyFormScores } from '../services/api';
+import { submitSurveyFormScores } from '../../services/api';
 
 const MentalHealthSurvey = (props) => {
   const { form, loggedIn } = props;

@@ -1,11 +1,13 @@
+import '../../App.css';
 import React, { useEffect, useRef, useState } from 'react';
-import '../App.css';
-import MentalHealthModuleFooter from './MentalHealthModuleFooter';
-import MentalHealthModuleMenu from './MentalHealthModuleMenu';
-import MentalHealthModuleLinks from './MentalHealthModuleLinks';
+import MentalHealthModuleFooter from '../MentalHealthModuleFooter';
+import MentalHealthSurvey from '../form/MentalHealthSurvey';
+import MentalHealthModuleMenu from '../MentalHealthModuleMenu';
+import MentalHealthModuleLinks from '../MentalHealthModuleLinks';
 
-const MentalHealthPage1 = (props) => {
-  const { setLocale, currentIndex, setCurrentIndex, data } = props;
+const MentalHealthPage2 = (props) => {
+  const { loggedIn, locale, setLocale, currentIndex, setCurrentIndex, data } =
+    props;
 
   function fetchCoverImageURL(data) {
     const coverImageComponent = data.mediaComponents.find(
@@ -14,16 +16,15 @@ const MentalHealthPage1 = (props) => {
     return `http://localhost:1337${coverImageComponent.coverImage.data.attributes.url}`;
   }
 
-  function fetchVideoURL(data) {
-    const videoComponent = data.mediaComponents.find(
-      (mediaComponent) => mediaComponent.__component === 'media.video'
-    );
-    return videoComponent.URL;
-  }
-
   function fetchTextBlocks(data) {
     return data.textComponents.filter(
       (textComponent) => textComponent.__component === 'content.text-block'
+    );
+  }
+
+  function fetchFormComponent(data) {
+    return data.textComponents.find(
+      (textComponent) => textComponent.__component === 'content.form'
     );
   }
 
@@ -96,17 +97,10 @@ const MentalHealthPage1 = (props) => {
             </div>
           );
         })}
-        <div className="youtubeVideo">
-          <iframe
-            width="560"
-            height="315"
-            src={fetchVideoURL(data)}
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe>
-        </div>
+        <MentalHealthSurvey
+          loggedIn={loggedIn}
+          form={fetchFormComponent(data)}
+        ></MentalHealthSurvey>
         <MentalHealthModuleFooter
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
@@ -119,4 +113,4 @@ const MentalHealthPage1 = (props) => {
   );
 };
 
-export default MentalHealthPage1;
+export default MentalHealthPage2;

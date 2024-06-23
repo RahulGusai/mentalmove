@@ -1,13 +1,10 @@
-// src/components/MentalHealthModule.js
-import React, { useEffect, useRef, useState } from 'react';
-import MentalHealthModuleFooter from './MentalHealthModuleFooter';
-import MentalHealthSurvey from './MentalHealthSurvey';
-import MentalHealthModuleMenu from './MentalHealthModuleMenu';
-import MentalHealthModuleLinks from './MentalHealthModuleLinks';
+import '../../App.css';
+import MentalHealthModuleFooter from '../MentalHealthModuleFooter';
+import MentalHealthModuleMenu from '../MentalHealthModuleMenu';
+import MentalHealthModuleLinks from '../MentalHealthModuleLinks';
 
-const MentalHealthPage2 = (props) => {
-  const { loggedIn, locale, setLocale, currentIndex, setCurrentIndex, data } =
-    props;
+const MentalHealthPage1 = (props) => {
+  const { setLocale, currentIndex, setCurrentIndex, moduleTitle, data } = props;
 
   function fetchCoverImageURL(data) {
     const coverImageComponent = data.mediaComponents.find(
@@ -16,15 +13,16 @@ const MentalHealthPage2 = (props) => {
     return `http://localhost:1337${coverImageComponent.coverImage.data.attributes.url}`;
   }
 
+  function fetchVideoURL(data) {
+    const videoComponent = data.mediaComponents.find(
+      (mediaComponent) => mediaComponent.__component === 'media.video'
+    );
+    return videoComponent.URL;
+  }
+
   function fetchTextBlocks(data) {
     return data.textComponents.filter(
       (textComponent) => textComponent.__component === 'content.text-block'
-    );
-  }
-
-  function fetchFormComponent(data) {
-    return data.textComponents.find(
-      (textComponent) => textComponent.__component === 'content.form'
     );
   }
 
@@ -59,7 +57,7 @@ const MentalHealthPage2 = (props) => {
     <div className="mental-health-page-container">
       <MentalHealthModuleMenu setLocale={setLocale}></MentalHealthModuleMenu>
       <div className="mental-health-page">
-        <h1>Mental Health Module</h1>
+        <h1>{moduleTitle}</h1>
         <div className="image">
           <img src={fetchCoverImageURL(data)} alt="cover-image" />
         </div>
@@ -97,10 +95,17 @@ const MentalHealthPage2 = (props) => {
             </div>
           );
         })}
-        <MentalHealthSurvey
-          loggedIn={loggedIn}
-          form={fetchFormComponent(data)}
-        ></MentalHealthSurvey>
+        <div className="youtubeVideo">
+          <iframe
+            width="560"
+            height="315"
+            src={fetchVideoURL(data)}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
+        </div>
         <MentalHealthModuleFooter
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
@@ -113,4 +118,4 @@ const MentalHealthPage2 = (props) => {
   );
 };
 
-export default MentalHealthPage2;
+export default MentalHealthPage1;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './LandingPage.css';
-import MentalHealthModuleMenu from './MentalHealthModuleMenu';
+import MentalHealthModuleMenu from '../MentalHealthModuleMenu';
 import { useNavigate } from 'react-router-dom';
 // import { fetchLandingPageData, fetchModules } from '../services/api';
 

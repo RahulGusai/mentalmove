@@ -1,5 +1,5 @@
 import './App.css';
-import LandingPage from './components/LandingPage';
+import LandingPage from './components/home/LandingPage';
 import MentalHealthSurveyModule from './components/MentalHealthSurveyModule';
 import AppRoutes from './routes';
 

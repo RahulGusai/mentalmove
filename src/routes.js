@@ -5,9 +5,9 @@ import {
   Routes,
   Navigate,
 } from 'react-router-dom';
-import MentalModuleAccess from './components/MentalModuleAccess';
-import MentalHealthModule from './components/MentalHealthModule';
-import LandingPage from './components/LandingPage';
+import MentalModuleAccess from './components/auth/MentalModuleAccess';
+import MentalHealthModule from './components/module/MentalHealthModule';
+import LandingPage from './components/home/LandingPage';
 import axios from 'axios';
 import MentalHealthSurveyModule from './components/MentalHealthSurveyModule';
 import { fetchModules } from './services/api';
