@@ -1,6 +1,5 @@
 // src/components/MentalHealthModule.js
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { fetchMentalHealthPage3Data } from '../services/api';
 import MentalHealthModuleMenu from './MentalHealthModuleMenu';
 import MentalHealthModuleFooter from './MentalHealthModuleFooter';
 import MentalHealthModuleLinks from './MentalHealthModuleLinks';
@@ -11,16 +10,16 @@ const MentalHealthPage3 = (props) => {
   const [text, setText] = useState(null);
   const [image, setImage] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await fetchMentalHealthPage3Data(locale);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const { data } = await fetchMentalHealthPage3Data(locale);
 
-      setText(data.attributes.content.data);
-      setImage(data.attributes.image.data);
-      setTitle(data.attributes.Title);
-    };
-    fetchData();
-  }, [locale]);
+  //     setText(data.attributes.content.data);
+  //     setImage(data.attributes.image.data);
+  //     setTitle(data.attributes.Title);
+  //   };
+  //   fetchData();
+  // }, [locale]);
 
   return (
     <div className="mental-health-page-container">

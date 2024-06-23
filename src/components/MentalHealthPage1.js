@@ -1,29 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { fetchMentalHealthPage1Data } from '../services/api';
 import '../App.css';
 import MentalHealthModuleFooter from './MentalHealthModuleFooter';
 import MentalHealthModuleMenu from './MentalHealthModuleMenu';
 import MentalHealthModuleLinks from './MentalHealthModuleLinks';
 
 const MentalHealthPage1 = (props) => {
-  const { locale, setLocale, currentIndex, setCurrentIndex, data } = props;
-
-  // const [title, setTitle] = useState(null);
-  // const [video, setVideo] = useState(null);
-  // const [text, setText] = useState(null);
-  // const [image, setImage] = useState(null);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const { data } = await fetchMentalHealthPage1Data(locale);
-
-  //     setVideo(data.attributes.video.data);
-  //     setText(data.attributes.content.data);
-  //     setImage(data.attributes.image.data);
-  //     setTitle(data.attributes.Title);
-  //   };
-  //   fetchData();
-  // }, [locale]);
+  const { setLocale, currentIndex, setCurrentIndex, data } = props;
 
   function fetchCoverImageURL(data) {
     const coverImageComponent = data.mediaComponents.find(
@@ -58,6 +40,16 @@ const MentalHealthPage1 = (props) => {
       case 5:
         return <h5 className="textBlock">{text}</h5>;
     }
+  }
+
+  function renderList(contentObj) {
+    return (
+      <ul className="list">
+        {contentObj.children.map((listItem) => {
+          return <li>{listItem.children[0].text}</li>;
+        })}
+      </ul>
+    );
   }
 
   const textBlocks = fetchTextBlocks(data);
@@ -98,6 +90,7 @@ const MentalHealthPage1 = (props) => {
                 }
 
                 if (type == 'list') {
+                  return renderList(contentObj);
                 }
               })}
             </div>
@@ -119,9 +112,9 @@ const MentalHealthPage1 = (props) => {
           setCurrentIndex={setCurrentIndex}
         ></MentalHealthModuleFooter>
       </div>
-      {/* <MentalHealthModuleLinks
+      <MentalHealthModuleLinks
         setCurrentIndex={setCurrentIndex}
-      ></MentalHealthModuleLinks> */}
+      ></MentalHealthModuleLinks>
     </div>
   );
 };

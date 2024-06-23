@@ -1,75 +1,106 @@
 // src/components/MentalHealthModule.js
 import React, { useEffect, useRef, useState } from 'react';
-import { fetchMentalHealthPage2Data } from '../services/api';
 import MentalHealthModuleFooter from './MentalHealthModuleFooter';
 import MentalHealthSurvey from './MentalHealthSurvey';
 import MentalHealthModuleMenu from './MentalHealthModuleMenu';
 import MentalHealthModuleLinks from './MentalHealthModuleLinks';
 
 const MentalHealthPage2 = (props) => {
-  const { loggedIn, locale, setLocale, currentIndex, setCurrentIndex } = props;
-  const [title, setTitle] = useState(null);
-  const [text, setText] = useState(null);
-  const [image, setImage] = useState(null);
-  const [questions, setQuestions] = useState(null);
-  const contentRef = useRef(null);
+  const { loggedIn, locale, setLocale, currentIndex, setCurrentIndex, data } =
+    props;
 
-  function fetchQuestions(surveyForm) {
-    const questionsArr = surveyForm.attributes.questions;
-    return questionsArr.map((questionObj) => {
-      return questionObj.children[0].text;
-    });
+  function fetchCoverImageURL(data) {
+    const coverImageComponent = data.mediaComponents.find(
+      (mediaComponent) => mediaComponent.__component === 'media.cover-image'
+    );
+    return `http://localhost:1337${coverImageComponent.coverImage.data.attributes.url}`;
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await fetchMentalHealthPage2Data(locale);
-      setImage(data.attributes.image.data);
-      setText(data.attributes.content.data);
-      setQuestions(fetchQuestions(data.attributes.survey_form.data));
-      setTitle(data.attributes.Title);
-    };
-    fetchData();
-  }, [locale]);
+  function fetchTextBlocks(data) {
+    return data.textComponents.filter(
+      (textComponent) => textComponent.__component === 'content.text-block'
+    );
+  }
+
+  function fetchFormComponent(data) {
+    return data.textComponents.find(
+      (textComponent) => textComponent.__component === 'content.form'
+    );
+  }
+
+  function renderHeadings(text, level) {
+    switch (level) {
+      case 1:
+        return <h1 className="textBlock">{text}</h1>;
+      case 2:
+        return <h2 className="textBlock">{text}</h2>;
+      case 3:
+        return <h3 className="textBlock">{text}</h3>;
+      case 4:
+        return <h4 className="textBlock">{text}</h4>;
+      case 5:
+        return <h5 className="textBlock">{text}</h5>;
+    }
+  }
+
+  function renderList(contentObj) {
+    return (
+      <ul className="list">
+        {contentObj.children.map((listItem) => {
+          return <li>{listItem.children[0].text}</li>;
+        })}
+      </ul>
+    );
+  }
+
+  const textBlocks = fetchTextBlocks(data);
 
   return (
     <div className="mental-health-page-container">
       <MentalHealthModuleMenu setLocale={setLocale}></MentalHealthModuleMenu>
       <div className="mental-health-page">
         <h1>Mental Health Module</h1>
-        {image && (
-          <div className="image">
-            <img src={image.attributes.URL} alt={image.attributes.Title} />
-            <span>{image.attributes.Title}</span>
-          </div>
-        )}
-        {title && <h2>{title}</h2>}
-        {text && (
-          <div className="textContent">
-            {text.attributes.title && <h2>{text.attributes.title}</h2>}
-            {text.attributes.content.map((block) => {
-              const children = block.children[0];
+        <div className="image">
+          <img src={fetchCoverImageURL(data)} alt="cover-image" />
+        </div>
+        <h2>{data.title}</h2>
+        {textBlocks.map((textBlock) => {
+          return (
+            <div className="textContent">
+              {textBlock.content.map((contentObj) => {
+                const { type } = contentObj;
 
-              let className = 'textBlock';
-              className = children.bold ? `${className} bold` : className;
-              className = children.italic ? `${className} italic` : className;
-              className = children.underline
-                ? `${className} underline`
-                : className;
+                if (type == 'heading') {
+                  const children = contentObj.children[0];
+                  return renderHeadings(children.text, contentObj.level);
+                }
 
-              if (children.type == 'heading')
-                return <h3 className={className}>{children.text}</h3>;
-              else return <div className={className}>{children.text}</div>;
-            })}
-          </div>
-        )}
-        {questions && (
-          <MentalHealthSurvey
-            locale={locale}
-            loggedIn={loggedIn}
-            questions={questions}
-          ></MentalHealthSurvey>
-        )}
+                if (type == 'paragraph') {
+                  const children = contentObj.children[0];
+
+                  let className = 'textBlock';
+                  className = children.bold ? `${className} bold` : className;
+                  className = children.italic
+                    ? `${className} italic`
+                    : className;
+                  className = children.underline
+                    ? `${className} underline`
+                    : className;
+
+                  return <div className={className}>{children.text}</div>;
+                }
+
+                if (type == 'list') {
+                  return renderList(contentObj);
+                }
+              })}
+            </div>
+          );
+        })}
+        <MentalHealthSurvey
+          loggedIn={loggedIn}
+          form={fetchFormComponent(data)}
+        ></MentalHealthSurvey>
         <MentalHealthModuleFooter
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}

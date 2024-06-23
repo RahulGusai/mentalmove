@@ -3,10 +3,8 @@ import './MentalHealthSurvey.css';
 import { Button } from 'semantic-ui-react';
 import { submitSurveyFormScores } from '../services/api';
 
-const options = ['Rare', 'Uncommon', 'Common', 'Almost always'];
-
 const MentalHealthSurvey = (props) => {
-  const { questions, loggedIn, locale } = props;
+  const { form, loggedIn } = props;
 
   const acceptanceFields = ['3', '5', '7', '8', '11', '12', '13', '14'];
   const presenceFields = ['0', '1', '2', '4', '6', '10'];
@@ -52,19 +50,14 @@ const MentalHealthSurvey = (props) => {
     }
   };
 
-  const surveyTitle =
-    locale === 'en'
-      ? 'How mindful are you?'
-      : 'Oefening -Hoe mindful ben jij ?';
-
   return (
     <div className="survey-container">
-      <h2>{surveyTitle}</h2>
-      {questions.map((question, qIndex) => (
+      <h2>{form.title}</h2>
+      {form.fields.map((field, qIndex) => (
         <div key={qIndex} className="question-block">
-          <p>{question}</p>
+          <p>{field.label}</p>
           <div className="surveyOptions">
-            {options.map((option, oIndex) => (
+            {Object.keys(field.options).map((option, oIndex) => (
               <label key={oIndex}>
                 <input
                   type="radio"

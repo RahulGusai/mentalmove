@@ -10,10 +10,21 @@ import MentalHealthModule from './components/MentalHealthModule';
 import LandingPage from './components/LandingPage';
 import axios from 'axios';
 import MentalHealthSurveyModule from './components/MentalHealthSurveyModule';
+import { fetchModules } from './services/api';
 
 const AppRoutes = () => {
   const [loggedIn, setLoggedIn] = useState(null);
   const [locale, setLocale] = useState('en');
+  const [modules, setModules] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await fetchModules(locale);
+      setModules(data);
+    };
+
+    if (loggedIn) fetchData();
+  }, [loggedIn, locale]);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -49,11 +60,13 @@ const AppRoutes = () => {
           path="/home"
           element={
             loggedIn ? (
-              <LandingPage
-                loggedIn={loggedIn}
-                locale={locale}
-                setLocale={setLocale}
-              ></LandingPage>
+              modules && (
+                <LandingPage
+                  loggedIn={loggedIn}
+                  setLocale={setLocale}
+                  modules={modules}
+                ></LandingPage>
+              )
             ) : (
               <Navigate to="/access" />
             )
@@ -63,17 +76,20 @@ const AppRoutes = () => {
           path="/mental-health-module"
           element={
             loggedIn ? (
-              <MentalHealthModule
-                loggedIn={loggedIn}
-                locale={locale}
-                setLocale={setLocale}
-              />
+              modules && (
+                <MentalHealthModule
+                  loggedIn={loggedIn}
+                  locale={locale}
+                  setLocale={setLocale}
+                  module={modules[0]}
+                />
+              )
             ) : (
               <Navigate to="/access" />
             )
           }
         />
-        <Route
+        {/* <Route
           path="/mental-move-survey"
           element={
             loggedIn ? (
@@ -82,7 +98,7 @@ const AppRoutes = () => {
               <Navigate to="/access" />
             )
           }
-        />
+        /> */}
         <Route path="*" element={<Navigate to="/access" />} />
       </Routes>
     </Router>

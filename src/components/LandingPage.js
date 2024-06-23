@@ -2,25 +2,14 @@ import React, { useEffect, useState } from 'react';
 import './LandingPage.css';
 import MentalHealthModuleMenu from './MentalHealthModuleMenu';
 import { useNavigate } from 'react-router-dom';
-import { fetchLandingPageData, fetchModules } from '../services/api';
+// import { fetchLandingPageData, fetchModules } from '../services/api';
 
 const LandingPage = (props) => {
   const navigate = useNavigate();
-  const { setLocale } = props;
-  const [modules, setModules] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await fetchModules();
-      setModules(data);
-    };
-    fetchData();
-  }, []);
+  const { modules, setLocale } = props;
 
   function handleModuleClick(index) {
-    if (index == 0)
-      navigate('/mental-health-module', { state: { module: modules[0] } });
-    else navigate('/mental-move-survey');
+    if (index == 0) navigate('/mental-health-module');
   }
 
   return (

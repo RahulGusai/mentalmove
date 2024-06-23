@@ -14,31 +14,7 @@ const config = {
 
 export const fetchModules = async (locale) => {
   const response = await api.get(
-    `/modules?populate[0]=module_pages&populate[1]=module_pages.mediaComponents&populate[2]=module_pages.mediaComponents.coverImage&populate[3]=module_pages.textComponents&populate[4]=coverImage`,
-    config
-  );
-  return response.data;
-};
-
-export const fetchMentalHealthPage1Data = async (locale) => {
-  const response = await api.get(
-    `/mental-health-page-1?populate=*&locale=${locale}`,
-    config
-  );
-  return response.data;
-};
-
-export const fetchMentalHealthPage2Data = async (locale) => {
-  const response = await api.get(
-    `/mental-health-page-2?populate=*&locale=${locale}`,
-    config
-  );
-  return response.data;
-};
-
-export const fetchMentalHealthPage3Data = async (locale) => {
-  const response = await api.get(
-    `/mental-health-page-3?populate=*&locale=${locale}`,
+    `/modules?populate[0]=module_pages&populate[1]=module_pages.mediaComponents&populate[2]=module_pages.mediaComponents.coverImage&populate[3]=module_pages.textComponents&populate[4]=module_pages.textComponents.fields&populate[5]=coverImage&locale=${locale}`,
     config
   );
   return response.data;

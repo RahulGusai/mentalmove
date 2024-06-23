@@ -6,9 +6,7 @@ import MentalHealthPage3 from './MentalHealthPage3';
 import { useLocation } from 'react-router-dom';
 
 const MentalHealthModule = (props) => {
-  const { loggedIn, locale, setLocale } = props;
-  const location = useLocation();
-  const { module } = location.state;
+  const { locale, setLocale, module } = props;
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -16,7 +14,6 @@ const MentalHealthModule = (props) => {
     case 0:
       return (
         <MentalHealthPage1
-          locale={locale}
           setLocale={setLocale}
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
@@ -26,11 +23,10 @@ const MentalHealthModule = (props) => {
     case 1:
       return (
         <MentalHealthPage2
-          loggedIn={loggedIn}
-          locale={locale}
           setLocale={setLocale}
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
+          data={module.attributes.module_pages.data[1].attributes}
         ></MentalHealthPage2>
       );
     case 2:
