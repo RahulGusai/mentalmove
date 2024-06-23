@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MentalHealthModulePage from '../module-pages/MentalHealthPage1';
+import MentalHealthModulePage from '../module-pages/MentalHealthModulePage';
 
 const MentalHealthModule = (props) => {
   const { loggedIn, setLocale, module } = props;
